@@ -1,0 +1,21 @@
+# docker-compose.yml (Versão simplificada para rodar SÓ O BANCO)
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: devweb_postgres_local
+    restart: always
+    environment:
+      POSTGRES_USER: devwebuser
+      POSTGRES_PASSWORD: devwebpass
+      POSTGRES_DB: devweb_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      # IMPORTANTE:
+      # Isso expõe a porta 5432 do container
+      # para a porta 5432 do seu computador (localhost)
+      - "5432:5432"
+
+volumes:
+  postgres_data:
