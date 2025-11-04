@@ -1,0 +1,221 @@
+/* --- Paleta de Cores e Variáveis --- */
+:root {
+    --color-dark-blue: #0a2540; 
+    --color-white: #ffffff;
+    --color-light-gray: #f4f7f6; /* Fundo principal */
+    --color-gray-border: #dfe1e6;
+    --color-gray-icon: #888;
+    --color-text: #333;
+    --color-error: #e74c3c;
+    
+    --header-height: 60px;
+    /* --sidebar-width foi removida */
+}
+
+/* --- Reset Básico e Estilos Globais --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+                 Arial, sans-serif;
+    background-color: var(--color-light-gray);
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+a {
+    color: var(--color-dark-blue);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* --- Layout Principal (CSS Grid) --- */
+.app-container {
+    display: grid;
+    grid-template-areas:
+        'header' /* Apenas header */
+        'main';   /* Apenas main */
+    grid-template-rows: var(--header-height) 1fr;
+    grid-template-columns: 1fr; /* Apenas uma coluna */
+    height: 100vh;
+}
+
+/* --- Cabeçalho Fixo --- */
+.app-header {
+    grid-area: header;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--header-height);
+    background-color: var(--color-dark-blue);
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center; /* <-- Adicione esta linha */
+    padding: 0 2rem;
+    z-index: 100;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.header-content h2 {
+    font-weight: 600;
+}
+
+/* --- ESTILOS DA SIDEBAR REMOVIDOS --- */
+
+
+/* --- Conteúdo Principal (Flexbox) --- */
+.app-main {
+    grid-area: main;
+    padding: 2rem;
+    overflow-y: auto; /* Permite scroll se o conteúdo for maior */
+    
+    /* Usando Flexbox para centralizar o formulário */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - var(--header-height));
+    
+    /* Garante que o conteúdo comece abaixo do header */
+    margin-top: var(--header-height); 
+}
+
+/* --- Container do Formulário --- */
+.form-container {
+    max-width: 450px;
+    width: 100%;
+    background-color: var(--color-white);
+    padding: 2.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.form-container h2 {
+    text-align: center;
+    color: var(--color-dark-blue);
+    margin-bottom: 0.5rem;
+}
+
+.form-container p {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #777;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-gray-icon);
+    font-size: 0.9rem;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 12px 12px 45px; /* Espaço para o ícone */
+    border: 1px solid var(--color-gray-border);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+/* Truque para placeholder da data de nascimento */
+.form-group input[type="date"] {
+    color: #333; /* Mostra a data quando selecionada */
+}
+.form-group input[type="text"][placeholder="Data de Nascimento"] {
+    color: #777; /* Cor do placeholder normal */
+}
+
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--color-dark-blue);
+    box-shadow: 0 0 0 3px rgba(10, 37, 64, 0.1);
+}
+
+/* --- Botões --- */
+.btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background-color: var(--color-dark-blue);
+    color: var(--color-white);
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+    background-color: #1a4a7c; /* Um tom mais claro do azul escuro */
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* --- Links de Troca e Erros --- */
+.toggle-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.95rem;
+}
+
+.hidden {
+    display: none;
+}
+
+.error-message {
+    color: var(--color-error);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+    .app-main {
+        /* Garante que o 'main' ocupe todo o espaço */
+        padding: 1rem;
+        /* Centralização já é feita pelo flex, mas garantimos que não haja altura mínima */
+        min-height: auto; 
+        align-items: flex-start; /* Alinha no topo em telas menores */
+    }
+
+    .form-container {
+        padding: 2rem 1.5rem;
+        /* Remove a sombra para um look mais "flat" no mobile */
+        box-shadow: none;
+        border-radius: 0;
+        background-color: var(--color-light-gray); /* Mesma cor do fundo */
+    }
+
+    .app-header {
+        padding: 0 1rem;
+    }
+
+    .app-header h2 {
+        font-size: 1.2rem;
+    }
+
+
+}

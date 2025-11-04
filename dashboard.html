@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevWeb - Meu Painel de Tarefas</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- CABEÇALHO ATUALIZADO -->
+        <header class="app-header">
+            <!-- Título Centralizado -->
+            <div class="header-content">
+                <h2>DevWeb</h2>
+            </div>
+            
+            <!-- Controles do Usuário (Perfil e Sair) -->
+            <div class="header-user-controls">
+                <button id="open-profile-modal-btn" class="header-icon-btn" title="Meu Perfil">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+                <a href="index.html" class="header-icon-btn logout-btn" title="Sair">
+                    <i class="fas fa-sign-out-alt"></i>
+                </a>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <div class="task-manager">
+                
+                <header class="task-header">
+                    <h1>Meu Painel de Tarefas</h1>
+                    <p>Olá! O que vamos fazer hoje?</p>
+                </header>
+                
+                <div class="add-task-container">
+                    <button type="button" class="btn" id="open-add-modal-btn">
+                        <i class="fas fa-plus"></i> Adicionar Nova Tarefa
+                    </button>
+                </div>
+
+                <section class="task-lists-container">
+                    
+                    <div class="task-list" id="todo-list-container">
+                        <h2><i class="fas fa-list-ul"></i> A Fazer</h2>
+                        <ul id="todo-list" class="list">
+                            </ul>
+                    </div>
+                    
+                    <div class="task-list" id="completed-list-container">
+                        <h2><i class="fas fa-clipboard-check"></i> Concluídas</h2>
+                        <ul id="completed-list" class="list">
+                           </ul>
+                    </div>
+
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- 
+    ========================================
+    MODAL DE TAREFAS (Sem alteração)
+    ========================================
+    -->
+    <div id="task-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            
+            <header class="modal-header">
+                <h2 id="modal-title">Nova Tarefa</h2>
+                <button class="close-btn" id="close-modal-btn" title="Fechar">&times;</button>
+            </header>
+            
+            <form id="task-detail-form">
+                <input type="hidden" id="task-id-input">
+                
+                <div class="form-group">
+                    <label for="task-name">Nome da Tarefa *</label>
+                    <input type="text" id="task-name" placeholder="Ex: Estudar JavaScript" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="task-desc">Descrição</label>
+                    <textarea id="task-desc" rows="3" placeholder="Ex: Revisar os módulos de DOM e Eventos..."></textarea>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="task-due-date">Data Limite</label>
+                        <input type="date" id="task-due-date">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="task-priority">Prioridade</label>
+                        <select id="task-priority">
+                            <option value="baixa">Baixa</option>
+                            <option value="media" selected>Média</option>
+                            <option value="alta">Alta</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="label-container">
+                            <label for="task-category">Categoria</label>
+                            <button type="button" class="btn-link" id="open-category-modal-btn">
+                                <i class="fas fa-cog"></i> Gerenciar
+                            </button>
+                        </div>
+                        <select id="task-category">
+                            <option value="">Nenhuma</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="task-time">Tempo Estimado (h)</label>
+                        <input type="number" id="task-time" min="0" step="0.5" placeholder="Ex: 2.5">
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-modal-btn">Cancelar</button>
+                    <button type="submit" class="btn">Salvar Tarefa</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 
+    ========================================
+    MODAL DE CATEGORIAS (Sem alteração)
+    ========================================
+    -->
+    <div id="category-modal" class="modal-overlay hidden">
+        <div class="modal-content modal-small">
+            
+            <header class="modal-header">
+                <h2 id="category-modal-title">Gerenciar Categorias</h2>
+                <button class="close-btn" id="close-category-modal-btn" title="Fechar">&times;</button>
+            </header>
+            
+            <form id="category-form">
+                <input type="hidden" id="category-id-input">
+                
+                <div class="form-grid-category">
+                    <div class="form-group">
+                        <label for="category-name-input">Nome da Categoria</label>
+                        <input type="text" id="category-name-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="category-color-input">Cor</label>
+                        <input type="color" id="category-color-input" value="#3498db">
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancel-category-edit-btn">Cancelar</button>
+                    <button type="submit" class="btn">Salvar Categoria</button>
+                </div>
+            </form>
+
+            <hr class="divider">
+
+            <h3 id="category-list-title">Categorias Salvas</h3>
+            <ul id="category-list" class="category-list">
+                <!-- JS insere aqui -->
+            </ul>
+
+        </div>
+    </div>
+
+    <!-- 
+    ========================================
+    MODAL DE PERFIL DO USUÁRIO (NOVO)
+    ========================================
+    -->
+    <div id="profile-modal" class="modal-overlay hidden">
+        <div class="modal-content modal-small">
+            
+            <header class="modal-header">
+                <h2>Meu Perfil</h2>
+                <button class="close-btn" id="close-profile-modal-btn" title="Fechar">&times;</button>
+            </header>
+            
+            <form id="profile-form">
+                <!-- Secção de Perfil -->
+                <div class="form-section">
+                    <h3>Informações Pessoais</h3>
+                    <div class="form-group">
+                        <label for="profile-name">Nome Completo</label>
+                        <input type="text" id="profile-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-email">Email (não pode ser alterado)</label>
+                        <input type="email" id="profile-email" disabled>
+                    </div>
+                </div>
+                
+                <!-- Secção de Senha -->
+                <div class="form-section">
+                    <h3>Alterar Senha</h3>
+                    <div class="form-group">
+                        <label for="profile-pass-current">Senha Atual</label>
+                        <input type="password" id="profile-pass-current" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-pass-new">Nova Senha</label>
+                        <input type="password" id="profile-pass-new" placeholder="Mínimo 6 caracteres">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-pass-confirm">Confirmar Nova Senha</label>
+                        <input type="password" id="profile-pass-confirm">
+                    </div>
+                </div>
+
+                <!-- Mensagem de Erro/Sucesso -->
+                <div id="profile-message" class="profile-message"></div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn">Salvar Alterações</button>
+                </div>
+            </form>
+
+            <!-- Zona de Perigo -->
+            <div class="danger-zone">
+                <h3>Zona de Perigo</h3>
+                <p>Excluir sua conta é uma ação permanente e removerá todas as suas tarefas e categorias.</p>
+                <button type="button" class="btn btn-danger" id="delete-account-btn">
+                    <i class="fas fa-trash-alt"></i> Excluir minha conta
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="dashboard.js" defer></script>
+</body>
+</html>

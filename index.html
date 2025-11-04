@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevWeb - Login/Cadastro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <h2>DevWeb</h2>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <div class="form-container">
+                
+                <form id="login-form">
+                    <h2>Login</h2>
+                    <p>Bem-vindo de volta! Faça login para continuar.</p>
+                    
+                    <div class="form-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="login-email" placeholder="Email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="login-password" placeholder="Senha" required>
+                    </div>
+
+                    <div id="login-error" class="error-message"></div>
+                    
+                    <button type="submit" class="btn">Entrar</button>
+                    
+                    <p class="toggle-link">
+                        Não tem uma conta? <a href="#" id="show-register">Cadastre-se</a>
+                    </p>
+                </form>
+
+                <form id="register-form" class="hidden">
+                    <h2>Cadastro</h2>
+                    <p>Crie sua conta para começar.</p>
+                    
+                    <div class="form-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="reg-name" placeholder="Nome Completo" required>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="reg-email" placeholder="Email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fas fa-calendar-alt"></i>
+                        <input type="text" id="reg-dob" placeholder="Data de Nascimento" onfocus="(this.type='date')" onblur="(this.type='text')">
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="reg-password" placeholder="Senha" required>
+                    </div>
+
+                    <div class="form-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="reg-confirm-password" placeholder="Confirmar Senha" required>
+                    </div>
+
+                    <div id="register-error" class="error-message"></div>
+
+                    <button type="submit" class="btn">Cadastrar</button>
+                    
+                    <p class="toggle-link">
+                        Já tem uma conta? <a href="#" id="show-login">Faça Login</a>
+                    </p>
+                </form>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
