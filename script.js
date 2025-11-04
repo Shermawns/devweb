@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginError = document.getElementById('login-error');
     const registerError = document.getElementById('register-error');
 
-    // Alternar entre login e cadastro
+    // Alternar entre login e cadastro (Esta parte não muda)
     showRegisterLink.addEventListener('click', (e) => {
         e.preventDefault();
         loginForm.classList.add('hidden');
@@ -19,22 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- UTILITÁRIOS ---
-    function saveUserToLocal(user) {
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        sessionStorage.setItem('currentUser', JSON.stringify(user));
-    }
-    function findUserByEmail(email) {
-        const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
-        return users.find(u => u.email === email);
-    }
-    function saveNewUser(user) {
-        const users = JSON.parse(localStorage.getItem('registeredUsers')) || [];
-        users.push(user);
-        localStorage.setItem('registeredUsers', JSON.stringify(users));
-    }
+    // As funções 'saveUserToLocal', 'findUserByEmail' e 'saveNewUser'
+    // foram REMOVIDAS. O banco de dados no back-end agora cuida disso.
 
-    // --- LOGIN ---
-    loginForm.addEventListener('submit', (e) => {
+    // --- LOGIN (Modificado para API) ---
+    loginForm.addEventListener('submit', async (e) => { // Adicionado 'async'
         e.preventDefault();
         loginError.textContent = '';
 
@@ -46,26 +35,39 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const existingUser = findUserByEmail(email);
+        // --- Início da Lógica de API ---
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
+            });
 
-        if (!existingUser) {
-            loginError.textContent = 'Usuário não encontrado.';
-            return;
+            const data = await response.json(); // Pega a resposta da API (sucesso ou erro)
+
+            if (!response.ok) {
+                // Se a API retornar um erro (ex: 401, 404), exibe a mensagem
+                loginError.textContent = data.message || 'Erro desconhecido.';
+                return;
+            }
+
+            // Sucesso! A API retornou os dados do usuário em 'data.user'
+            // Salva na sessionStorage (para o dashboard.js usar)
+            sessionStorage.setItem('currentUser', JSON.stringify(data.user));
+            
+            console.log('Usuário logado:', data.user.email);
+            window.location.href = 'dashboard.html'; // Redireciona
+
+        } catch (err) {
+            // Isso captura erros de rede (ex: servidor offline)
+            console.error('Erro de fetch no login:', err);
+            loginError.textContent = 'Não foi possível conectar ao servidor.';
         }
-
-        if (existingUser.password !== password) {
-            loginError.textContent = 'Senha incorreta.';
-            return;
-        }
-
-        // Salva na sessão e redireciona
-        saveUserToLocal(existingUser);
-        console.log('Usuário logado:', existingUser.email);
-        window.location.href = 'dashboard.html';
+        // --- Fim da Lógica de API ---
     });
 
-    // --- CADASTRO ---
-    registerForm.addEventListener('submit', (e) => {
+    // --- CADASTRO (Modificado para API) ---
+    registerForm.addEventListener('submit', async (e) => { // Adicionado 'async'
         e.preventDefault();
         registerError.textContent = '';
 
@@ -75,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const password = document.getElementById('reg-password').value.trim();
         const confirmPassword = document.getElementById('reg-confirm-password').value.trim();
 
+        // Validações do lado do cliente (ainda são úteis)
         if (!name || !email || !dob || !password || !confirmPassword) {
             registerError.textContent = 'Por favor, preencha todos os campos.';
             return;
@@ -90,18 +93,33 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (findUserByEmail(email)) {
-            registerError.textContent = 'Este e-mail já está cadastrado.';
-            return;
+        // --- Início da Lógica de API ---
+        try {
+            const response = await fetch('/api/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, dob, password })
+            });
+
+            const data = await response.json(); // Pega a resposta da API
+
+            if (!response.ok) {
+                // Se a API retornar um erro (ex: email já existe)
+                registerError.textContent = data.message || 'Erro ao cadastrar.';
+                return;
+            }
+
+            // Sucesso!
+            alert('Cadastro realizado com sucesso! Faça seu login.');
+            registerForm.reset();
+            registerForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+
+        } catch (err) {
+            // Erro de rede
+            console.error('Erro de fetch no cadastro:', err);
+            registerError.textContent = 'Não foi possível conectar ao servidor.';
         }
-
-        const newUser = { name, email, dob, password };
-        saveNewUser(newUser);
-        saveUserToLocal(newUser);
-
-        alert('Cadastro realizado com sucesso! Faça seu login.');
-        registerForm.reset();
-        registerForm.classList.add('hidden');
-        loginForm.classList.remove('hidden');
+        // --- Fim da Lógica de API ---
     });
 });
