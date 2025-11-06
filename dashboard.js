@@ -1,7 +1,5 @@
-/* dashboard.js (VERSÃO COM API) */
-
 document.addEventListener('DOMContentLoaded', () => {
-  // --- 1. Seleção dos Elementos (Não muda) ---
+  // --- 1. Seleção dos Elementos  ---
   const todoList = document.getElementById('todo-list');
   const completedList = document.getElementById('completed-list');
   const openModalBtn = document.getElementById('open-add-modal-btn');

@@ -1,4 +1,3 @@
-# docker-compose.yml (Versão simplificada para rodar SÓ O BANCO)
 
 services:
   db:
@@ -12,9 +11,6 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      # IMPORTANTE:
-      # Isso expõe a porta 5432 do container
-      # para a porta 5432 do seu computador (localhost)
       - "5432:5432"
 
 volumes:

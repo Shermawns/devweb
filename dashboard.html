@@ -10,14 +10,10 @@
 <body>
 
     <div class="app-container">
-        <!-- CABEÇALHO ATUALIZADO -->
         <header class="app-header">
-            <!-- Título Centralizado -->
             <div class="header-content">
                 <h2>DevWeb</h2>
             </div>
-            
-            <!-- Controles do Usuário (Perfil e Sair) -->
             <div class="header-user-controls">
                 <button id="open-profile-modal-btn" class="header-icon-btn" title="Meu Perfil">
                     <i class="fas fa-user-circle"></i>
@@ -61,11 +57,7 @@
         </main>
     </div>
 
-    <!-- 
-    ========================================
-    MODAL DE TAREFAS (Sem alteração)
-    ========================================
-    -->
+    <!-- MODAL DE TAREFAS -->
     <div id="task-modal" class="modal-overlay hidden">
         <div class="modal-content">
             
@@ -128,11 +120,7 @@
         </div>
     </div>
 
-    <!-- 
-    ========================================
-    MODAL DE CATEGORIAS (Sem alteração)
-    ========================================
-    -->
+    <!--MODAL DE CATEGORIAS-->
     <div id="category-modal" class="modal-overlay hidden">
         <div class="modal-content modal-small">
             
@@ -165,20 +153,15 @@
 
             <h3 id="category-list-title">Categorias Salvas</h3>
             <ul id="category-list" class="category-list">
-                <!-- JS insere aqui -->
             </ul>
 
         </div>
     </div>
 
-    <!-- 
-    ========================================
-    MODAL DE PERFIL DO USUÁRIO (NOVO)
-    ========================================
-    -->
+    <!--MODAL DE PERFIL DO USUÁRIO-->
+
     <div id="profile-modal" class="modal-overlay hidden">
         <div class="modal-content modal-small">
-            
             <header class="modal-header">
                 <h2>Meu Perfil</h2>
                 <button class="close-btn" id="close-profile-modal-btn" title="Fechar">&times;</button>
@@ -198,12 +181,11 @@
                     </div>
                 </div>
                 
-                <!-- Secção de Senha -->
                 <div class="form-section">
                     <h3>Alterar Senha</h3>
                     <div class="form-group">
                         <label for="profile-pass-current">Senha Atual</label>
-                        <input type="password" id="profile-pass-current" placeholder="">
+                        <input type="password" id="profile-pass-current">
                     </div>
                     <div class="form-group">
                         <label for="profile-pass-new">Nova Senha</label>
